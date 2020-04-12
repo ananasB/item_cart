@@ -2,8 +2,7 @@ class AllItems extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
-      isLoaded: false,
+      isLoaded: false
     };
   }
 
