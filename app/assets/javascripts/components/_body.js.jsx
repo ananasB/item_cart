@@ -6,6 +6,8 @@ class Body extends React.Component {
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.addNewItem = this.addNewItem.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   handleFormSubmit(name, description){
@@ -29,11 +31,30 @@ class Body extends React.Component {
     })
   }
 
+  handleDelete(id){
+    fetch(`/api/v1/items/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => { 
+        this.deleteItem(id);
+        console.log('Item was deleted!')
+      })
+  }
+
+  deleteItem(id){
+    newItems = this.state.items.filter((item) => item.id !== id)
+    this.setState({
+      items: newItems
+    })
+  }
+
   render() {
     return (
       <div>
         <NewItem handleFormSubmit={this.handleFormSubmit} />
-        <AllItems items={this.state.items} />
+        <AllItems items={this.state.items} handleDelete={this.handleDelete} />
       </div>
     );
   }

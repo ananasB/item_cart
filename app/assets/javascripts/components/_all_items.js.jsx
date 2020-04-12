@@ -19,6 +19,10 @@ class AllItems extends React.Component {
       })
   }
 
+  handleDelete(id) {
+    this.props.handleDelete(id);
+  }
+
   render() {
     const { isLoaded, items } = this.state;
 
@@ -32,6 +36,7 @@ class AllItems extends React.Component {
             <div key={item.id}>
               <h3>{item.name}</h3>
               <p>{item.description}</p>
+              <button onClick={this.handleDelete.bind(this, item.id)}>Delete</button>
             </div> 
           )}
         </div>
