@@ -12,6 +12,12 @@ class Body extends React.Component {
     this.updateItem = this.updateItem.bind(this)
   }
 
+  componentDidMount() {
+    fetch('/api/v1/items.json')
+      .then((response) => {return response.json()})
+      .then((data) => {this.setState({ items: data }) });
+  }
+
   handleFormSubmit(name, description){
     let body = JSON.stringify({item: {name: name, description:   description} })
 

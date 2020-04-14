@@ -1,24 +1,4 @@
 class AllItems extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoaded: false
-    };
-  }
-
-  componentDidMount() {
-    const url = "/api/v1/items.json";
-    fetch(url)
-      .then(res =>   res.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json
-        });
-        console.log(this.state.items)
-      })
-  }
-
   handleDelete(id) {
     this.props.handleDelete(id);
   }
@@ -28,24 +8,21 @@ class AllItems extends React.Component {
   }
 
   render() {
-    const { isLoaded, items } = this.state;
-
-    if (!isLoaded) {
-      return <div>Loading...</div>
-    }
-    else {
+    var items= this.props.items.map((item) => {
       return (
-        <div className="cards">
-          {items.map( item => 
-            <div key={item.id}>
-              <Item item={item}
-                    handleDelete={this.handleDelete.bind(this, item.id)}
-                    handleUpdate={this.handleUpdate.bind(this)} />
-            </div> 
-          )}
+        <div key={item.id}>
+          <Item item={item}
+                handleDelete={this.handleDelete.bind(this, item.id)}
+                handleUpdate={this.handleUpdate.bind(this)}/>
         </div>
       )
-    }
+    });
+
+    return(
+      <div>
+        {items}
+      </div>
+    )
   }
 
 }
