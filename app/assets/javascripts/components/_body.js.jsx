@@ -4,10 +4,12 @@ class Body extends React.Component {
     this.state = {
       items: []
     };
-    this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.addNewItem = this.addNewItem.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.deleteItem = this.deleteItem.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.addNewItem = this.addNewItem.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.updateItem = this.updateItem.bind(this)
   }
 
   handleFormSubmit(name, description){
@@ -50,11 +52,31 @@ class Body extends React.Component {
     })
   }
 
+  handleUpdate(item){
+    fetch(`/api/v1/items/${item.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({item: item}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => { 
+        this.updateItem(item)
+      })
+  }
+
+  updateItem(item){
+    let newItems = this.state.items.filter((i) => i.id !== item.id)
+    newItems.push(item)
+    this.setState({
+      items: newItems
+    })
+  }
+
   render() {
     return (
       <div>
         <NewItem handleFormSubmit={this.handleFormSubmit} />
-        <AllItems items={this.state.items} handleDelete={this.handleDelete} />
+        <AllItems items={this.state.items} handleDelete={this.handleDelete} handleUpdate = {this.handleUpdate} />
       </div>
     );
   }

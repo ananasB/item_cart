@@ -23,6 +23,10 @@ class AllItems extends React.Component {
     this.props.handleDelete(id);
   }
 
+  handleUpdate(item) {
+    this.props.handleUpdate(item);
+  }
+
   render() {
     const { isLoaded, items } = this.state;
 
@@ -34,9 +38,9 @@ class AllItems extends React.Component {
         <div className="cards">
           {items.map( item => 
             <div key={item.id}>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <button onClick={this.handleDelete.bind(this, item.id)}>Delete</button>
+              <Item item={item}
+                    handleDelete={this.handleDelete.bind(this, item.id)}
+                    handleUpdate={this.handleUpdate.bind(this)} />
             </div> 
           )}
         </div>
